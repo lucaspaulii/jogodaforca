@@ -74,3 +74,6 @@ h1 {
     font-size: 40px;
     font-weight: 700;
 }
+.red {
+    color: red !important;
+}

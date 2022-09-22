@@ -38,21 +38,24 @@ export default function App() {
     "y",
     "z",
   ];
-  const [palavra, setPalavra] = useState();
-  const [letrasCertas, setLetrasCertas] = useState([]);
-  const [letrasErradas, setLetrasErradas] = useState([]);
-  const [palavraCodificada, setPalavraCodificada] = useState();
-  const [imagem, setImagem] = useState(forca0);
+  let [palavra, setPalavra] = useState();
+  let [letrasCertas, setLetrasCertas] = useState([]);
+  let [letrasErradas, setLetrasErradas] = useState([]);
+  let [palavraCodificada, setPalavraCodificada] = useState();
+  let [imagem, setImagem] = useState(forca0);
 
   function checkIfWordHasLetter(letter, word) {
     if (word) {
       const wordArr = word.split("");
       if (wordArr.includes(letter)) {
-        setLetrasCertas([...letrasCertas, letter]);
+        letrasCertas = [...letrasCertas, letter];
+        setLetrasCertas(letrasCertas);
         displayLetter(letter, word);
       } else {
-        setLetrasErradas([...letrasErradas, letter]);
-        setImagem(images[letrasErradas.length]);
+        letrasErradas = [...letrasErradas, letter];
+        setLetrasErradas(letrasErradas);
+        imagem = images[letrasErradas.length];
+        setImagem(imagem);
       }
     }
   }
@@ -64,7 +67,9 @@ export default function App() {
     }
   }
   function randomWordGenerator() {
-    return palavras[Math.floor(Math.random() * (palavras.length - 1))];
+    palavra = palavras[Math.floor(Math.random() * (palavras.length - 1))];
+    setPalavra(palavra);
+    displayWord(palavra);
   }
   function displayWord(word) {
     if (word) {
@@ -79,7 +84,8 @@ export default function App() {
       let newPalavraArr = wordArr.map((l) =>
         letrasCertas.includes(l) ? l : "_"
       );
-      setPalavraCodificada(newPalavraArr.join(" "));
+      palavraCodificada = newPalavraArr.join(" ");
+      setPalavraCodificada(palavraCodificada);
     }
   }
   function clearGame() {
@@ -87,6 +93,23 @@ export default function App() {
     setLetrasErradas([]);
     setPalavraCodificada("");
     setImagem(forca0);
+  }
+  function letterWasUsed(a) {
+    if (letrasCertas.includes(a) || letrasErradas.includes(a)) {
+      return true;
+    }
+    return false;
+  }
+  function gameLost() {
+    if (imagem === forca6) {
+        return true
+    } else {return false}
+  }
+  function onGameLoss() {
+    if (gameLost() === true) {
+        palavraCodificada = palavra;
+        setPalavraCodificada(palavraCodificada);
+    }
   }
 
   return (
@@ -97,21 +120,24 @@ export default function App() {
           <button
             onClick={() => {
               clearGame();
-              setPalavra(randomWordGenerator());
-              displayWord(palavra);
+              randomWordGenerator();
             }}
           >
             Escolher Palavra
           </button>
-          <h1>{palavraCodificada}</h1>
+          <h1 className={gameLost() ? 'red' : ''}>{palavraCodificada}</h1>
         </div>
       </div>
       <ul className="letters">
         {alfabeto.map((a, i) => (
           <li key={i}>
             <button
-              onClick={() => checkIfWordHasLetter(a, palavra)}
+              onClick={() => {
+                checkIfWordHasLetter(a, palavra)
+                onGameLoss()
+            }}
               className={changeLetterColor(a)}
+              disabled={letterWasUsed(a) || gameLost()}
             >
               {a.toUpperCase()}
             </button>
