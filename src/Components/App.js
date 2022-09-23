@@ -43,6 +43,9 @@ export default function App() {
   let [letrasErradas, setLetrasErradas] = useState([]);
   let [palavraCodificada, setPalavraCodificada] = useState();
   let [imagem, setImagem] = useState(forca0);
+  let [gameStarted, setGameStarted] = useState(false);
+  let [winGame, setWinGame] = useState(false);
+  let [loseGame, setLoseGame] = useState(false);
 
   function checkIfWordHasLetter(letter, word) {
     if (word) {
@@ -93,6 +96,8 @@ export default function App() {
     setLetrasErradas([]);
     setPalavraCodificada("");
     setImagem(forca0);
+    setWinGame(false)
+    setLoseGame(false)
   }
   function letterWasUsed(a) {
     if (letrasCertas.includes(a) || letrasErradas.includes(a)) {
@@ -102,16 +107,31 @@ export default function App() {
   }
   function gameLost() {
     if (imagem === forca6) {
-        return true
-    } else {return false}
-  }
-  function onGameLoss() {
-    if (gameLost() === true) {
-        palavraCodificada = palavra;
-        setPalavraCodificada(palavraCodificada);
+      loseGame = true;
+      setLoseGame(loseGame);
+      onGameLoss();
     }
   }
-
+  function onGameLoss() {
+    palavraCodificada = palavra.toUpperCase();
+    setPalavraCodificada(palavraCodificada);
+  }
+  function startGame() {
+    gameStarted = true;
+    setGameStarted(gameStarted);
+  }
+  function gameWon() {
+    console.log(palavra);
+    let finalArr = palavraCodificada.split(" ");
+    let finalWord = finalArr.join("");
+    console.log(finalWord);
+    if (finalWord === palavra) {
+      palavraCodificada = palavra.toUpperCase();
+      setPalavraCodificada(palavraCodificada);
+      winGame = true;
+      setWinGame(winGame);
+    }
+  }
   return (
     <div className="content">
       <div className="imgContainer">
@@ -121,11 +141,12 @@ export default function App() {
             onClick={() => {
               clearGame();
               randomWordGenerator();
+              startGame();
             }}
           >
             Escolher Palavra
           </button>
-          <h1 className={gameLost() ? 'red' : ''}>{palavraCodificada}</h1>
+          <h1 className={(winGame ? 'green' : (loseGame ? 'red' : ''))}>{palavraCodificada}</h1>
         </div>
       </div>
       <ul className="letters">
@@ -133,11 +154,12 @@ export default function App() {
           <li key={i}>
             <button
               onClick={() => {
-                checkIfWordHasLetter(a, palavra)
-                onGameLoss()
-            }}
+                checkIfWordHasLetter(a, palavra);
+                gameWon();
+                gameLost();
+              }}
               className={changeLetterColor(a)}
-              disabled={letterWasUsed(a) || gameLost()}
+              disabled={letterWasUsed(a) || winGame || loseGame || !gameStarted}
             >
               {a.toUpperCase()}
             </button>
