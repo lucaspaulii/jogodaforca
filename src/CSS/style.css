@@ -115,6 +115,7 @@ button:hover {
   .imgContainer h1 {
     margin-left: 5px;
     word-break: break-word;
+    font-size: 25px;
   }
   input {
     width: 30%;
