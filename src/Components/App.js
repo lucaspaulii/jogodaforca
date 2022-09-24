@@ -123,7 +123,6 @@ export default function App() {
   function startGame() {
     gameStarted = true;
     setGameStarted(gameStarted);
-    console.log(palavra)
   }
   function gameWon() {
     let finalArr = palavraCodificada.split(" ");
@@ -139,8 +138,6 @@ export default function App() {
     if(palavra) {
     const inputToCheck = inputHandler.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
     const palavraToCheck = palavra.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-    console.log(inputToCheck);
-    console.log(palavraToCheck)
     if(inputToCheck === palavraToCheck) {
       palavraCodificada = palavra.toUpperCase();
       setPalavraCodificada(palavraCodificada);
@@ -157,6 +154,9 @@ export default function App() {
   }
   return (
     <div className="content">
+      <div className="header">
+        Jogo da Forca!
+      </div>
       <div className="imgContainer">
         <img src={imagem} alt="forca 0" />
         <div className="wordContainer">

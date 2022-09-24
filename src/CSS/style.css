@@ -1,6 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Oswald:wght@200;300;400;500;600;700&display=swap');
 * {
     box-sizing: border-box;
+}
+.header {
+  font-size: 60px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  font-family: 'Bungee Spice', cursive;
 }
 .content {
   background: rgb(63, 94, 251);
@@ -13,6 +20,7 @@
   flex-direction: column;
   align-items: center;
   font-family: 'Oswald', sans-serif;
+  height: 100vh;
 }
 .imgContainer {
   display: flex;
@@ -53,7 +61,8 @@ img {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    width: 80%;
+    max-width: 80%;
+    min-width: 50%;
     margin-bottom: 20px;
     font-weight: 700;
 }
@@ -75,6 +84,7 @@ h1 {
     margin: 20px 0;
     font-size: 40px;
     font-weight: 700;
+    word-break: break-word;
 }
 .red {
     color: red !important;
@@ -84,6 +94,10 @@ h1 {
 }
 
 @media screen and (max-width: 550px) {
+  .header {
+    font-size: 40px;
+    height: 80px;
+  }
   img {
     width: 100px;
   }
@@ -91,6 +105,10 @@ h1 {
     font-size: 12px;
     padding: 0.4em 1.2em;
     margin-left: 20px;
+  }
+  .imgContainer h1{
+    margin-left: 5px;
+    word-break: break-word;
   }
   input {
     width: 30%;
