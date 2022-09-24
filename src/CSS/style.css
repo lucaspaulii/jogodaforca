@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap');
 * {
     box-sizing: border-box;
 }
@@ -11,6 +12,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-family: 'Oswald', sans-serif;
 }
 .imgContainer {
   display: flex;
@@ -79,4 +81,18 @@ h1 {
 }
 .green {
     color: lightgreen !important;
+}
+
+@media screen and (max-width: 550px) {
+  img {
+    width: 100px;
+  }
+  .imgContainer button {
+    font-size: 12px;
+    padding: 0.4em 1.2em;
+    margin-left: 20px;
+  }
+  input {
+    width: 30%;
+  }
 }

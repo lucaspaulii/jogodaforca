@@ -46,10 +46,12 @@ export default function App() {
   let [gameStarted, setGameStarted] = useState(false);
   let [winGame, setWinGame] = useState(false);
   let [loseGame, setLoseGame] = useState(false);
+  let [inputHandler, setInputHandler] = useState();
 
   function checkIfWordHasLetter(letter, word) {
     if (word) {
-      const wordArr = word.split("");
+      const wordToCheck = word.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+      const wordArr = wordToCheck.split("");
       if (wordArr.includes(letter)) {
         letrasCertas = [...letrasCertas, letter];
         setLetrasCertas(letrasCertas);
@@ -83,9 +85,11 @@ export default function App() {
   }
   function displayLetter(a, word) {
     if (word) {
-      let wordArr = word.split("");
-      let newPalavraArr = wordArr.map((l) =>
-        letrasCertas.includes(l) ? l : "_"
+      let wordArr = word.split("")
+      let wordToCheck = word.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+      let wordToCheckArr = wordToCheck.split("");
+      let newPalavraArr = wordToCheckArr.map((l, i) =>
+        letrasCertas.includes(l) ? (wordArr[i]) : "_"
       );
       palavraCodificada = newPalavraArr.join(" ");
       setPalavraCodificada(palavraCodificada);
@@ -119,18 +123,37 @@ export default function App() {
   function startGame() {
     gameStarted = true;
     setGameStarted(gameStarted);
+    console.log(palavra)
   }
   function gameWon() {
-    console.log(palavra);
     let finalArr = palavraCodificada.split(" ");
     let finalWord = finalArr.join("");
-    console.log(finalWord);
     if (finalWord === palavra) {
       palavraCodificada = palavra.toUpperCase();
       setPalavraCodificada(palavraCodificada);
       winGame = true;
       setWinGame(winGame);
     }
+  }
+  function handleGuess() {
+    if(palavra) {
+    const inputToCheck = inputHandler.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+    const palavraToCheck = palavra.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+    console.log(inputToCheck);
+    console.log(palavraToCheck)
+    if(inputToCheck === palavraToCheck) {
+      palavraCodificada = palavra.toUpperCase();
+      setPalavraCodificada(palavraCodificada);
+      winGame = true;
+      setWinGame(winGame);
+    } else {
+      letrasErradas = [...letrasErradas, inputHandler];
+      setLetrasErradas(letrasErradas);
+      imagem = images[letrasErradas.length];
+      setImagem(imagem);
+    }
+  }
+  setInputHandler('')
   }
   return (
     <div className="content">
@@ -168,8 +191,12 @@ export default function App() {
       </ul>
       <div className="inputGuess">
         <p>Ja sei a palavra!</p>
-        <input></input>
-        <button>Chutar</button>
+        <input 
+        onChange={(e => setInputHandler(e.target.value))} 
+        value={inputHandler}
+        disabled={winGame || loseGame || !gameStarted}
+        ></input>
+        <button onClick={() => handleGuess()}>Chutar</button>
       </div>
     </div>
   );
