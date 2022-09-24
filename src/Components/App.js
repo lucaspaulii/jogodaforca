@@ -50,7 +50,7 @@ export default function App() {
 
   function checkIfWordHasLetter(letter, word) {
     if (word) {
-      const wordToCheck = word.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+      const wordToCheck = word.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
       const wordArr = wordToCheck.split("");
       if (wordArr.includes(letter)) {
         letrasCertas = [...letrasCertas, letter];
@@ -85,11 +85,11 @@ export default function App() {
   }
   function displayLetter(a, word) {
     if (word) {
-      let wordArr = word.split("")
-      let wordToCheck = word.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+      let wordArr = word.split("");
+      let wordToCheck = word.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
       let wordToCheckArr = wordToCheck.split("");
       let newPalavraArr = wordToCheckArr.map((l, i) =>
-        letrasCertas.includes(l) ? (wordArr[i]) : "_"
+        letrasCertas.includes(l) ? wordArr[i] : "_"
       );
       palavraCodificada = newPalavraArr.join(" ");
       setPalavraCodificada(palavraCodificada);
@@ -100,8 +100,8 @@ export default function App() {
     setLetrasErradas([]);
     setPalavraCodificada("");
     setImagem(forca0);
-    setWinGame(false)
-    setLoseGame(false)
+    setWinGame(false);
+    setLoseGame(false);
   }
   function letterWasUsed(a) {
     if (letrasCertas.includes(a) || letrasErradas.includes(a)) {
@@ -135,32 +135,36 @@ export default function App() {
     }
   }
   function handleGuess() {
-    if(palavra) {
-    const inputToCheck = inputHandler.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-    const palavraToCheck = palavra.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-    if(inputToCheck === palavraToCheck) {
-      palavraCodificada = palavra.toUpperCase();
-      setPalavraCodificada(palavraCodificada);
-      winGame = true;
-      setWinGame(winGame);
-    } else {
-      letrasErradas = [...letrasErradas, inputHandler];
-      setLetrasErradas(letrasErradas);
-      imagem = images[letrasErradas.length];
-      setImagem(imagem);
+    if (palavra) {
+      const inputToCheck = inputHandler
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+      const palavraToCheck = palavra
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+      if (inputToCheck === palavraToCheck) {
+        palavraCodificada = palavra.toUpperCase();
+        setPalavraCodificada(palavraCodificada);
+        winGame = true;
+        setWinGame(winGame);
+      } else {
+        letrasErradas = [...letrasErradas, inputHandler];
+        setLetrasErradas(letrasErradas);
+        imagem = forca6;
+        setImagem(imagem);
+        gameLost();
+      }
     }
-  }
-  setInputHandler('')
+    setInputHandler("");
   }
   return (
     <div className="content">
-      <div className="header">
-        Jogo da Forca!
-      </div>
+      <div className="header">Jogo da Forca!</div>
       <div className="imgContainer">
-        <img src={imagem} alt="forca 0" />
+        <img src={imagem} alt="forca 0" data-identifier="game-image"/>
         <div className="wordContainer">
           <button
+            data-identifier="choose-word"
             onClick={() => {
               clearGame();
               randomWordGenerator();
@@ -169,13 +173,16 @@ export default function App() {
           >
             Escolher Palavra
           </button>
-          <h1 className={(winGame ? 'green' : (loseGame ? 'red' : ''))}>{palavraCodificada}</h1>
+          <h1 className={winGame ? "green" : loseGame ? "red" : ""} data-identifier="word">
+            {palavraCodificada}
+          </h1>
         </div>
       </div>
       <ul className="letters">
         {alfabeto.map((a, i) => (
           <li key={i}>
             <button
+              data-identifier="letter"
               onClick={() => {
                 checkIfWordHasLetter(a, palavra);
                 gameWon();
@@ -191,12 +198,19 @@ export default function App() {
       </ul>
       <div className="inputGuess">
         <p>Ja sei a palavra!</p>
-        <input 
-        onChange={(e => setInputHandler(e.target.value))} 
-        value={inputHandler}
-        disabled={winGame || loseGame || !gameStarted}
+        <input
+          data-identifier="type-guess"
+          onChange={(e) => setInputHandler(e.target.value)}
+          value={inputHandler}
+          disabled={winGame || loseGame || !gameStarted}
         ></input>
-        <button onClick={() => handleGuess()} disabled={winGame || loseGame || !gameStarted}>Chutar</button>
+        <button
+          data-identifier="guess-button"
+          onClick={() => handleGuess()}
+          disabled={winGame || loseGame || !gameStarted}
+        >
+          Chutar
+        </button>
       </div>
     </div>
   );
