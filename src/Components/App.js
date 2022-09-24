@@ -196,7 +196,7 @@ export default function App() {
         value={inputHandler}
         disabled={winGame || loseGame || !gameStarted}
         ></input>
-        <button onClick={() => handleGuess()}>Chutar</button>
+        <button onClick={() => handleGuess()} disabled={winGame || loseGame || !gameStarted}>Chutar</button>
       </div>
     </div>
   );
