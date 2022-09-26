@@ -99,6 +99,16 @@ button:hover {
 .inputGuess button:active {
   background-color: lightgray;
 }
+.finalWord {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.finalWord img {
+  height: 50px;
+  width: auto;
+  margin-left: 5px;
+}
 @media screen and (max-width: 550px) {
   .header {
     font-size: 40px;
