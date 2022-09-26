@@ -183,12 +183,12 @@ export default function App() {
             {winGame ? (
               <img
                 src="https://images.squarespace-cdn.com/content/v1/5b0a1425d274cbde7c3c941f/1551408776853-YVODTGJ1KL4R0X5VJK0C/Bucket-Trophy.gif?format=300w"
-                alt="winner image"
+                alt="winner"
               />
             ) : loseGame ? (
               <img
                 src="https://img.devrant.com/devrant/rant/r_72964_MB8Vw.gif"
-                alt="loser image"
+                alt="loser"
               />
             ) : (
               ""

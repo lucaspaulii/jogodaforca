@@ -7,7 +7,11 @@
   height: 150px;
   display: flex;
   align-items: center;
+  justify-content: center;
   font-family: "Bungee Spice", cursive;
+  border-bottom: 1px solid #ffffff;
+  width: 100%;
+  background-color: #00000050;
 }
 .content {
   background: rgb(63, 94, 251);
@@ -44,7 +48,9 @@ img {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  width: 80%;
+  max-width: 80%;
+  min-width: 50%;
+  margin-top: 15px;
   margin-bottom: 20px;
 }
 .letters button {
@@ -54,8 +60,8 @@ img {
   background-color: #ffffff;
   border: none;
   border-radius: 5px;
-  width: 25px;
-  height: 25px;
+  width: 22px;
+  height: 22px;
 }
 .inputGuess {
   display: flex;
@@ -63,8 +69,14 @@ img {
   justify-content: space-around;
   max-width: 80%;
   min-width: 50%;
-  margin-bottom: 20px;
   font-weight: 700;
+  background-color: #00000021;
+  padding: 5px;
+  border-radius: 0.5em;
+}
+.inputGuess p {
+  color: #ffffff;
+  text-shadow: 2px 2px 2px #00000050;
 }
 .inputGuess button {
   color: #090909;
@@ -73,6 +85,9 @@ img {
   border-radius: 0.5em;
   background: #e8e8e8;
   border: 1px solid #e8e8e8;
+}
+.inputGuess input {
+  border-radius: 0.5em;
 }
 .correctLetter {
   background-color: lightgreen !important;
